@@ -86,7 +86,13 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                         );
                       } else if (snapshot.hasData) {
                         PlacesSearchResponse snapshotData = snapshot.data;
-                        return ListView.builder(
+                        return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 220,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshotData.results.length,
@@ -99,34 +105,42 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                   color: Colors.grey[100],
                                   borderRadius: BorderRadius.circular(3)),
                               width: double.infinity,
-                              height: 220,
+                              // height: 220,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   placeData.photos.isNotEmpty
-                                      ? Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    Provider.of<ImageService>(
-                                                            context,
-                                                            listen: false)
-                                                        .fetchImage(
-                                                      placeData.photos.first
-                                                          .photoReference,
+                                      ? Expanded(
+                                          child: Container(
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      Provider.of<ImageService>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchImage(
+                                                        placeData.photos.first
+                                                            .photoReference,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  fit: BoxFit.cover)),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         )
-                                      : Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/placeholder.jpg'),
-                                                  fit: BoxFit.cover)),
+                                      : Expanded(
+                                          child: Container(
+                                            // height: 175,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/placeholder.jpg'),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -134,8 +148,7 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                       // border: Border.all(color: Colors.grey)
                                     ),
                                     width: double.infinity,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
+                                    padding: EdgeInsets.symmetric(vertical: 5),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -143,13 +156,14 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                         Text(
                                           placeData.name,
                                           style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 13.5,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Text(
                                           placeData.types.first,
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 11,
+                                            color: Colors.grey[500],
                                             fontWeight: FontWeight.w500,
                                           ),
                                         )
@@ -193,7 +207,13 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                         );
                       } else if (snapshot.hasData) {
                         PlacesSearchResponse snapshotData = snapshot.data;
-                        return ListView.builder(
+                        return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 220,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshotData.results.length,
@@ -206,34 +226,42 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                   color: Colors.grey[100],
                                   borderRadius: BorderRadius.circular(3)),
                               width: double.infinity,
-                              height: 220,
+                              // height: 220,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   placeData.photos.isNotEmpty
-                                      ? Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    Provider.of<ImageService>(
-                                                            context,
-                                                            listen: false)
-                                                        .fetchImage(
-                                                      placeData.photos.first
-                                                          .photoReference,
+                                      ? Expanded(
+                                          child: Container(
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      Provider.of<ImageService>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchImage(
+                                                        placeData.photos.first
+                                                            .photoReference,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  fit: BoxFit.cover)),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         )
-                                      : Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/placeholder.jpg'),
-                                                  fit: BoxFit.cover)),
+                                      : Expanded(
+                                          child: Container(
+                                            // height: 175,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/placeholder.jpg'),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -241,8 +269,7 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                       // border: Border.all(color: Colors.grey)
                                     ),
                                     width: double.infinity,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
+                                    padding: EdgeInsets.symmetric(vertical: 5),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -250,13 +277,14 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                         Text(
                                           placeData.name,
                                           style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 13.5,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Text(
                                           placeData.types.first,
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 11,
+                                            color: Colors.grey[500],
                                             fontWeight: FontWeight.w500,
                                           ),
                                         )
@@ -300,7 +328,13 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                         );
                       } else if (snapshot.hasData) {
                         PlacesSearchResponse snapshotData = snapshot.data;
-                        return ListView.builder(
+                        return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 220,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshotData.results.length,
@@ -313,34 +347,42 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                   color: Colors.grey[100],
                                   borderRadius: BorderRadius.circular(3)),
                               width: double.infinity,
-                              height: 220,
+                              // height: 220,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   placeData.photos.isNotEmpty
-                                      ? Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    Provider.of<ImageService>(
-                                                            context,
-                                                            listen: false)
-                                                        .fetchImage(
-                                                      placeData.photos.first
-                                                          .photoReference,
+                                      ? Expanded(
+                                          child: Container(
+                                            height: 175,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      Provider.of<ImageService>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchImage(
+                                                        placeData.photos.first
+                                                            .photoReference,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  fit: BoxFit.cover)),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         )
-                                      : Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/placeholder.jpg'),
-                                                  fit: BoxFit.cover)),
+                                      : Expanded(
+                                          child: Container(
+                                            // height: 175,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/placeholder.jpg'),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -348,8 +390,7 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                       // border: Border.all(color: Colors.grey)
                                     ),
                                     width: double.infinity,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
+                                    padding: EdgeInsets.symmetric(vertical: 5),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -357,13 +398,14 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                         Text(
                                           placeData.name,
                                           style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 13.5,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Text(
                                           placeData.types.first,
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 11,
+                                            color: Colors.grey[500],
                                             fontWeight: FontWeight.w500,
                                           ),
                                         )
@@ -412,47 +454,60 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                         );
                       } else if (snapshot.hasData) {
                         PlacesSearchResponse snapshotData = snapshot.data;
-                        return ListView.builder(
+                        return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 220,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshotData.results.length,
                           itemBuilder: (BuildContext context, int index) {
                             var placeData = snapshotData.results[index];
-                            if (placeData.photos.isNotEmpty) {}
                             return Container(
                               margin: EdgeInsets.only(bottom: 5),
                               decoration: BoxDecoration(
                                   color: Colors.grey[100],
-                                  borderRadius: BorderRadius.circular(3)),
+                                  borderRadius: BorderRadius.circular(5)),
                               width: double.infinity,
-                              height: 220,
+                              // height: 220,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   placeData.photos.isNotEmpty
-                                      ? Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    Provider.of<ImageService>(
-                                                            context,
-                                                            listen: false)
-                                                        .fetchImage(
-                                                      placeData.photos.first
-                                                          .photoReference,
+                                      ? Expanded(
+                                          child: Container(
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      Provider.of<ImageService>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchImage(
+                                                        placeData.photos.first
+                                                            .photoReference,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  fit: BoxFit.cover)),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         )
-                                      : Container(
-                                          height: 175,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/placeholder.jpg'),
-                                                  fit: BoxFit.cover)),
+                                      : Expanded(
+                                          child: Container(
+                                            // height: 175,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/placeholder.jpg'),
+                                                    fit: BoxFit.cover)),
+                                          ),
                                         ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -460,8 +515,7 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                       // border: Border.all(color: Colors.grey)
                                     ),
                                     width: double.infinity,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
+                                    padding: EdgeInsets.symmetric(vertical: 5),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -469,13 +523,14 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
                                         Text(
                                           placeData.name,
                                           style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 13.5,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Text(
                                           placeData.types.first,
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 11,
+                                            color: Colors.grey[500],
                                             fontWeight: FontWeight.w500,
                                           ),
                                         )

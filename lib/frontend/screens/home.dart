@@ -1,5 +1,5 @@
 import 'package:findmyplace/backend/provider/places_service.dart';
-import 'package:findmyplace/frontend/screens/nearby_places.dart';
+import 'package:findmyplace/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -79,59 +79,59 @@ class _HomePageState extends State<HomePage> {
           Position snapshotData = snapshot.data;
           Provider.of<PlacesService>(context, listen: false).userLocation =
               Location(lat: snapshotData.latitude, lng: snapshotData.longitude);
-          // LatLng _userLocation =
-          //     LatLng(snapshotData.latitude, snapshotData.longitude);
-          return NearbyPlaces();
-          // return Scaffold(
-          //   body: Stack(
-          //     alignment: Alignment.bottomCenter,
-          //     children: [
-          //       GoogleMap(
-          //         zoomControlsEnabled: false,
-          //         compassEnabled: true,
-          //         initialCameraPosition: CameraPosition(
-          //             zoom: 16,
-          //             target: LatLng(
-          //                 _userLocation.latitude, _userLocation.longitude)),
-          //         onMapCreated: (controller) {
-          //           setState(() {
-          //             _googleMapController = controller;
-          //             addMarker(LatLng(
-          //                 _userLocation.latitude, _userLocation.longitude));
-          //           });
-          //         },
-          //         markers: markers.toSet(),
-          //         onTap: (coordinates) {
-          //           _googleMapController!.animateCamera(
-          //               CameraUpdate.newCameraPosition(
-          //                   CameraPosition(target: coordinates, zoom: 16)));
-          //           addMarker(coordinates);
-          //         },
-          //       ),
-          //       GestureDetector(
-          //         onTap: () =>
-          //             Navigator.pushNamed(context, PageRoutes.nearbyPlaces),
-          //         child: Container(
-          //           height: 50,
-          //           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //           width: double.infinity,
-          //           decoration: BoxDecoration(
-          //             color: Color(0xff0FC874),
-          //             borderRadius: BorderRadius.circular(5),
-          //           ),
-          //           child: Center(
-          //               child: Text(
-          //             "See nearby places",
-          //             style: TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 16,
-          //                 fontWeight: FontWeight.w600),
-          //           )),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // );
+          LatLng _userLocation =
+              LatLng(snapshotData.latitude, snapshotData.longitude);
+          // return NearbyPlaces();
+          return Scaffold(
+            body: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                GoogleMap(
+                  zoomControlsEnabled: false,
+                  compassEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                      zoom: 16,
+                      target: LatLng(
+                          _userLocation.latitude, _userLocation.longitude)),
+                  onMapCreated: (controller) {
+                    setState(() {
+                      _googleMapController = controller;
+                      addMarker(LatLng(
+                          _userLocation.latitude, _userLocation.longitude));
+                    });
+                  },
+                  markers: markers.toSet(),
+                  onTap: (coordinates) {
+                    _googleMapController!.animateCamera(
+                        CameraUpdate.newCameraPosition(
+                            CameraPosition(target: coordinates, zoom: 16)));
+                    addMarker(coordinates);
+                  },
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.pushNamed(context, PageRoutes.nearbyPlaces),
+                  child: Container(
+                    height: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xff0FC874),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "See nearby places",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ),
+              ],
+            ),
+          );
         }
         return Center(
           child: Text(
