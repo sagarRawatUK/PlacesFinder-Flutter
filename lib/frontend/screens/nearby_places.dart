@@ -69,102 +69,439 @@ class _NearbyPlacesState extends State<NearbyPlaces> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ListView(
           children: [
-            FutureBuilder(
-              future: Provider.of<PlacesService>(context, listen: false)
-                  .fetchNearbyPlaces(
-                      Provider.of<FilterService>(context, listen: false)
-                          .getQuery!),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xff0FC874),
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  PlacesSearchResponse snapshotData = snapshot.data;
-                  return ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshotData.results.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var placeData = snapshotData.results[index];
-                      if (placeData.photos.isNotEmpty) {}
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(3)),
-                        width: double.infinity,
-                        height: 220,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            placeData.photos.isNotEmpty
-                                ? Container(
-                                    height: 175,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                              Provider.of<ImageService>(context,
-                                                      listen: false)
-                                                  .fetchImage(
-                                                placeData.photos.first
-                                                    .photoReference,
-                                              ),
-                                            ),
-                                            fit: BoxFit.cover)),
-                                  )
-                                : Container(
-                                    height: 175,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/placeholder.jpg'),
-                                            fit: BoxFit.cover)),
-                                  ),
-                            Container(
+            Provider.of<FilterService>(context, listen: false).getFilters[0]
+                ? FutureBuilder(
+                    future: Provider.of<PlacesService>(context, listen: false)
+                        .fetchNearbyPlaces("gym"),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.5),
+                            child: CircularProgressIndicator(
+                              color: Color(0xff0FC874),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasData) {
+                        PlacesSearchResponse snapshotData = snapshot.data;
+                        return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshotData.results.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var placeData = snapshotData.results[index];
+                            if (placeData.photos.isNotEmpty) {}
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 5),
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                // border: Border.all(color: Colors.grey)
-                              ),
+                                  color: Colors.grey[100],
+                                  borderRadius: BorderRadius.circular(3)),
                               width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 5),
+                              height: 220,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    placeData.name,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    placeData.types.first,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                                  placeData.photos.isNotEmpty
+                                      ? Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    Provider.of<ImageService>(
+                                                            context,
+                                                            listen: false)
+                                                        .fetchImage(
+                                                      placeData.photos.first
+                                                          .photoReference,
+                                                    ),
+                                                  ),
+                                                  fit: BoxFit.cover)),
+                                        )
+                                      : Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/placeholder.jpg'),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      // border: Border.all(color: Colors.grey)
                                     ),
-                                  )
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          placeData.name,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          placeData.types.first,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                          ],
+                            );
+                          },
+                        );
+                      }
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.5),
+                          child: Text(
+                            "Network Error",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       );
                     },
-                  );
-                }
-                return Center(
-                  child: Text(
-                    "Network Error",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                );
-              },
-            ),
+                  )
+                : SizedBox.shrink(),
+            Provider.of<FilterService>(context, listen: false).getFilters[1]
+                ? FutureBuilder(
+                    future: Provider.of<PlacesService>(context, listen: false)
+                        .fetchNearbyPlaces("cafe"),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.5),
+                            child: CircularProgressIndicator(
+                              color: Color(0xff0FC874),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasData) {
+                        PlacesSearchResponse snapshotData = snapshot.data;
+                        return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshotData.results.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var placeData = snapshotData.results[index];
+                            if (placeData.photos.isNotEmpty) {}
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 5),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  borderRadius: BorderRadius.circular(3)),
+                              width: double.infinity,
+                              height: 220,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  placeData.photos.isNotEmpty
+                                      ? Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    Provider.of<ImageService>(
+                                                            context,
+                                                            listen: false)
+                                                        .fetchImage(
+                                                      placeData.photos.first
+                                                          .photoReference,
+                                                    ),
+                                                  ),
+                                                  fit: BoxFit.cover)),
+                                        )
+                                      : Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/placeholder.jpg'),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      // border: Border.all(color: Colors.grey)
+                                    ),
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          placeData.name,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          placeData.types.first,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.5),
+                          child: Text(
+                            "Network Error",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox.shrink(),
+            Provider.of<FilterService>(context, listen: false).getFilters[2]
+                ? FutureBuilder(
+                    future: Provider.of<PlacesService>(context, listen: false)
+                        .fetchNearbyPlaces("restaurant"),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.5),
+                            child: CircularProgressIndicator(
+                              color: Color(0xff0FC874),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasData) {
+                        PlacesSearchResponse snapshotData = snapshot.data;
+                        return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshotData.results.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var placeData = snapshotData.results[index];
+                            if (placeData.photos.isNotEmpty) {}
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 5),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  borderRadius: BorderRadius.circular(3)),
+                              width: double.infinity,
+                              height: 220,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  placeData.photos.isNotEmpty
+                                      ? Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    Provider.of<ImageService>(
+                                                            context,
+                                                            listen: false)
+                                                        .fetchImage(
+                                                      placeData.photos.first
+                                                          .photoReference,
+                                                    ),
+                                                  ),
+                                                  fit: BoxFit.cover)),
+                                        )
+                                      : Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/placeholder.jpg'),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      // border: Border.all(color: Colors.grey)
+                                    ),
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          placeData.name,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          placeData.types.first,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.5),
+                          child: Text(
+                            "Network Error",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox.shrink(),
+            !(Provider.of<FilterService>(context, listen: false)
+                        .getFilters[0] ||
+                    Provider.of<FilterService>(context, listen: false)
+                        .getFilters[1] ||
+                    Provider.of<FilterService>(context, listen: false)
+                        .getFilters[2])
+                ? FutureBuilder(
+                    future: Provider.of<PlacesService>(context, listen: false)
+                        .fetchNearbyPlaces("store"),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.5),
+                            child: CircularProgressIndicator(
+                              color: Color(0xff0FC874),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasData) {
+                        PlacesSearchResponse snapshotData = snapshot.data;
+                        return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshotData.results.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var placeData = snapshotData.results[index];
+                            if (placeData.photos.isNotEmpty) {}
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 5),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  borderRadius: BorderRadius.circular(3)),
+                              width: double.infinity,
+                              height: 220,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  placeData.photos.isNotEmpty
+                                      ? Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    Provider.of<ImageService>(
+                                                            context,
+                                                            listen: false)
+                                                        .fetchImage(
+                                                      placeData.photos.first
+                                                          .photoReference,
+                                                    ),
+                                                  ),
+                                                  fit: BoxFit.cover)),
+                                        )
+                                      : Container(
+                                          height: 175,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/placeholder.jpg'),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      // border: Border.all(color: Colors.grey)
+                                    ),
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          placeData.name,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          placeData.types.first,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.5),
+                          child: Text(
+                            "Network Error",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox.shrink(),
           ],
         ),
       ),
